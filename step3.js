@@ -1,3 +1,14 @@
+// TASK
+// 1. Retrieve data from the "server".
+// 3. For active employees whose salary is below the average, increase the salary by 10%.
+// 4. For active employees whose salary is above the average, increase the salary by 5%.
+// 5. Store the previous salary value for record-keeping.
+// 6. Normalize data inconsistencies: Ensure that all salary and age fields are stored as numbers.
+// 7. Bring all values to the same currency (USD) using the provided exchange rates.
+// 8. Post the updated data back to the "server".
+// 9. Log the number of salaries updated and the total amount of salary increase.
+
+
 const API = require('./api');
 const { sumByProp: fnSumByProp
     , isAbove: fnIsAbove
