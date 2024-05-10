@@ -44,7 +44,7 @@ const increase10Percent = (val) => val *= 1.1;
 const calcDifference = (user) => user.salary - user.prevSalary;
 const sumDifference = (acc, user) => acc + calcDifference(user);
 
-async function processUserData() {
+const processUsersData = async() => {
     try {
         const users = await API.getUsers();
         const convertSalary = await convert();
@@ -85,4 +85,4 @@ async function processUserData() {
         throw error;
     }
 }
-processUserData();
+processUsersData();

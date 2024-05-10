@@ -11,7 +11,7 @@
 // Note: There are some bugs in provided code
 const API = require('./api');
 
-async function processUserData() {
+const processUsersData = async() => {
     let totalSalary = 0;
     let activeUsersCount = 0;
     let averageSalary = 0;
@@ -90,4 +90,4 @@ async function processUserData() {
     }
 }
 
-processUserData();
+processUsersData();

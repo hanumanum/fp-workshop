@@ -50,7 +50,7 @@ const fnIncrease10Percent = (val) => val * 1.1;
 const fnCalcDifference = (user) => user.salary - user.prevSalary;
 const fnSumDifference = (acc, user) => acc + fnCalcDifference(user);
 
-async function processUserData() {
+const processUsersData = async() => {
     try {
         const fnConvertSalary = await fnConvert();
         const fnPrepareData = compose(
@@ -94,4 +94,4 @@ async function processUserData() {
         throw error;
     }
 }
-processUserData();
+processUsersData();
