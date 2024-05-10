@@ -55,6 +55,7 @@ const getUsers = async () => {
 const postData = (data) => {
     return new Promise(resolve => {
         setTimeout(() => {
+            console.log('updated data:', data)
             resolve(data);
         }, 500);
     });
