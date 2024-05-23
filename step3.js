@@ -50,28 +50,31 @@ const fnIncrease10Percent = (val) => val * 1.1;
 const fnCalcDifference = (user) => user.salary - user.prevSalary;
 const fnSumDifference = (acc, user) => acc + fnCalcDifference(user);
 
+const fnProcessAboveAvgUsers = compose(
+    fnChangePropBy('salary', fnIncrease5Percent),
+    fnChangePropBy('aboveAverage', () => true)
+);
+
+const fnProcessBelowAvgUsers = compose(
+    fnChangePropBy('salary', fnIncrease10Percent),
+    fnChangePropBy('aboveAverage', () => false)
+);
+
+const fnPreproecess = (fnSalaryConverter) => compose(
+    fnStandartizeData,
+    fnSalaryConverter,
+    fnChangePropBy('currency', () => 'USD'),
+    fnCopyProp('salary', 'prevSalary')
+);
+
 const processUsersData = async() => {
     try {
+        //1. Side Effects, getting data from the server
         const fnConvertSalary = await fnConvert();
-        const fnPrepareData = compose(
-            fnStandartizeData,
-            fnConvertSalary,
-            fnChangePropBy('currency', () => 'USD'),
-            fnCopyProp('salary', 'prevSalary')
-        );
-
-        const fnProcessAboveAvgUsers = compose(
-            fnChangePropBy('salary', fnIncrease5Percent),
-            fnChangePropBy('aboveAverage', () => true)
-        );
-
-        const fnProcessBelowAvgUsers = compose(
-            fnChangePropBy('salary', fnIncrease10Percent),
-            fnChangePropBy('aboveAverage', () => false)
-        );
-
         const users = await API.getUsers();
-        const allUsers = users.map(fnPrepareData);
+    
+        //2. Business Logic, only pure functions
+        const allUsers = users.map(fnPreproecess(fnConvertSalary));
 
         const [activeUsers, inactiveUsers] = splitArrayBy(fnIsActiveUsers, allUsers);
         const averageSalary = activeUsers.reduce(fnSumByProp('salary'), 0) / activeUsers.length;
@@ -85,6 +88,7 @@ const processUsersData = async() => {
         ];
         const totalIncrease = updatedUsers.reduce(fnSumDifference, 0);
 
+        //3. Side Effects, posting data to the server
         await API.postData([...updatedUsers, ...inactiveUsers]);
 
         console.log('Total number updated: ', updatedUsers.length);

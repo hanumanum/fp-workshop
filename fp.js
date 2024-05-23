@@ -13,8 +13,8 @@ const splitArrayBy = (boolfn, arr) => {
 }
 
 // Working with objects properties
-const isAbove = (propName, avg) => (obj) => obj[propName] > avg;
-const isBelow = (propName, avg) => (obj) => !isAbove(propName, avg)(obj);
+const isAbove = (propName, val) => (obj) => obj[propName] > val;
+const isBelow = (propName, val) => (obj) => !isAbove(propName, val)(obj);
 const sumByProp = (propName) => (acc, obj) => acc + obj[propName];
 const copyProp = (propNameFrom, propNameTo) => (obj) => ({ ...obj, [propNameTo]: obj[propNameFrom] });
 const changePropBy = (propName, changerFn) => (obj) => ({ ...obj, [propName]: changerFn(obj[propName]) });
